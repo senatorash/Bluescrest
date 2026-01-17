@@ -1,29 +1,34 @@
 "use client";
 
-import { useState } from "react";
-import useBookingFormValidator from "@/hooks/useBookingFormValidator";
-import { initializePayment } from "../actions/paystack";
 import { LuCalendar, LuClock, LuCreditCard } from "react-icons/lu";
+import { initializePayment } from "@/actions/paystack";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  consultationSchema,
+  ConsultationFormData,
+} from "@/lib/schemas/consultation.schema";
 
 const BookingForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const { values, errors, handleChange, validate, resetForm } =
-    useBookingFormValidator();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<ConsultationFormData>({
+    resolver: zodResolver(consultationSchema),
+  });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-
+  const onSubmit = async (data: ConsultationFormData) => {
     try {
-      const isValid = validate();
-      console.log("Form Valid:", isValid);
-      if (!isValid) {
-        setIsLoading(false);
-        return;
-      }
+      const sanitizedData = consultationSchema.parse(data);
 
       // Initialize Paystack on server
-      const accessCode = await initializePayment(values.email, 50000, values);
+      const accessCode = await initializePayment(
+        sanitizedData.email,
+        50000,
+        sanitizedData
+      );
 
       //    Load Paystack dynamically (Fixes SSR error)
       const PaystackPop = (await import("@paystack/inline-js")).default;
@@ -33,12 +38,11 @@ const BookingForm = () => {
         onSuccess: async (transaction: any) => {
           window.location.href = `/verify?reference=${transaction.reference}`;
         },
-        onCancel: () => setIsLoading(false),
+        onCancel: () => {},
       });
-      resetForm();
+      reset();
     } catch (error) {
       console.error("Payment Error:", error);
-      setIsLoading(false);
     }
   };
   return (
@@ -47,9 +51,10 @@ const BookingForm = () => {
         Your Details
       </h3>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2">
+            {/* name field */}
             <label
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               htmlFor="name"
@@ -57,17 +62,17 @@ const BookingForm = () => {
               Full Name *
             </label>
             <input
+              {...register("name")}
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
               type="text"
-              value={values.name}
-              onChange={(e) => handleChange("name", e.target.value)}
               placeholder="John Doe"
             />
             {errors.name && (
-              <p className="text-xs text-red-600 mt-1">{errors.name}</p>
+              <p className="text-xs text-red-600 mt-1">{errors.name.message}</p>
             )}
           </div>
           <div className="space-y-2">
+            {/* email address field */}
             <label
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               htmlFor="email"
@@ -75,20 +80,22 @@ const BookingForm = () => {
               Email Address *
             </label>
             <input
+              {...register("email")}
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
               type="email"
-              value={values.email}
-              onChange={(e) => handleChange("email", e.target.value)}
               placeholder="john@example.com"
             />
             {errors.email && (
-              <p className="text-xs text-red-600 mt-1">{errors.email}</p>
+              <p className="text-xs text-red-600 mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2">
+            {/* phone number field */}
             <label
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               htmlFor="phone"
@@ -96,23 +103,26 @@ const BookingForm = () => {
               Phone Number *
             </label>
             <input
+              {...register("phone")}
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
               type="tel"
               inputMode="numeric"
               pattern="[0-9]*"
-              maxLength={15}
-              value={values.phone}
-              onChange={(e) => {
-                const onlyNums = e.target.value.replace(/\D/g, "");
-                handleChange("phone", onlyNums);
+              onInput={(e) => {
+                const input = e.target as HTMLInputElement;
+                input.value = input.value.replace(/[^0-9]/g, "");
               }}
+              maxLength={15}
               placeholder="23470895678901"
             />
             {errors.phone && (
-              <p className="text-xs text-red-600 mt-1">{errors.phone}</p>
+              <p className="text-xs text-red-600 mt-1">
+                {errors.phone.message}
+              </p>
             )}
           </div>
           <div className="space-y-2">
+            {/* case type field */}
             <label
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               htmlFor="caseType"
@@ -120,8 +130,7 @@ const BookingForm = () => {
               Type of Legal Matter
             </label>
             <select
-              value={values.caseType}
-              onChange={(e) => handleChange("caseType", e.target.value)}
+              {...register("caseType")}
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <option value="">Select a practice area</option>
@@ -134,13 +143,16 @@ const BookingForm = () => {
               <option value="other">Other</option>
             </select>
             {errors.caseType && (
-              <p className="text-xs text-red-600 mt-1">{errors.caseType}</p>
+              <p className="text-xs text-red-600 mt-1">
+                {errors.caseType.message}
+              </p>
             )}
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2">
+            {/* preferred date field */}
             <label
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2"
               htmlFor="preferredDate"
@@ -149,19 +161,19 @@ const BookingForm = () => {
               Preferred Date
             </label>
             <input
+              {...register("preferredDate")}
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
               type="date"
-              value={values.preferredDate}
-              onChange={(e) => handleChange("preferredDate", e.target.value)}
               min={new Date().toISOString().split("T")[0]}
             />
             {errors.preferredDate && (
               <p className="text-xs text-red-600 mt-1">
-                {errors.preferredDate}
+                {errors.preferredDate.message}
               </p>
             )}
           </div>
           <div className="space-y-2">
+            {/* preferred time field */}
             <label
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2"
               htmlFor="preferredTime"
@@ -170,8 +182,7 @@ const BookingForm = () => {
               Preferred Time
             </label>
             <select
-              value={values.preferredTime}
-              onChange={(e) => handleChange("preferredTime", e.target.value)}
+              {...register("preferredTime")}
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <option value="">Select a time slot</option>
@@ -185,13 +196,14 @@ const BookingForm = () => {
             </select>
             {errors.preferredTime && (
               <p className="text-xs text-red-600 mt-1">
-                {errors.preferredTime}
+                {errors.preferredTime.message}
               </p>
             )}
           </div>
         </div>
 
         <div className="space-y-2">
+          {/* message field */}
           <label
             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             htmlFor="description"
@@ -199,16 +211,17 @@ const BookingForm = () => {
             Brief Description of Your Legal Matter
           </label>
           <textarea
+            {...register("message")}
             className="flex min-h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            id="description"
-            name="description"
-            value={values.message}
-            onChange={(e) => handleChange("message", e.target.value)}
+            // id="description"
+            // name="description"
             placeholder="Please provide a brief overview of your legal situation..."
             rows={4}
           />
           {errors.message && (
-            <p className="text-xs text-red-600 mt-1">{errors.message}</p>
+            <p className="text-xs text-red-600 mt-1">
+              {errors.message.message}
+            </p>
           )}
         </div>
 
@@ -218,7 +231,7 @@ const BookingForm = () => {
             className="dark:hover:bg-accent/80 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-navy-light shadow-lg hover:shadow-xl hover:-translate-y-0.5 font-semibold h-11 rounded-md px-8 w-full"
           >
             <LuCreditCard className="h-5 w-5 mr-2" />
-            {isLoading ? "Processing..." : "Pay ₦50,000 & Book Consultation"}
+            {isSubmitting ? "Processing..." : "Pay ₦50,000 & Book Consultation"}
           </button>
           <p className="text-center text-sm text-muted-foreground mt-4">
             Secure payment powered by Paystack. Your information is protected.

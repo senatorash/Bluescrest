@@ -5,6 +5,8 @@ interface InitializePaymentResponse {
   phone: string;
   caseType: string;
   message: string;
+  preferredDate: string;
+  preferredTime: string;
 }
 
 export const initializePayment = async (
@@ -29,6 +31,8 @@ export const initializePayment = async (
             phone: metadata.phone,
             subject: metadata.caseType,
             message: metadata.message,
+            preferredDate: metadata.preferredDate,
+            preferredTime: metadata.preferredTime,
           },
         }),
       }

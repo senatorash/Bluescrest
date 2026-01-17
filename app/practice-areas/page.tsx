@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { LuArrowRight } from "react-icons/lu";
 import { areas } from "./areasData";
-import Layout from "../components/layout/Layout";
+import Layout from "../../components/layout/Layout";
 import Link from "next/link";
 
 const practiceAreas = () => {

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { LuLinkedin, LuMail } from "react-icons/lu";
-import Layout from "../components/layout/Layout";
+import Layout from "../../components/layout/Layout";
 import { attorneys } from "./attorneysData";
 const Attorneys = () => {
   return (

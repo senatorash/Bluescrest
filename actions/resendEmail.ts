@@ -12,7 +12,9 @@ export const resendEmail = async (
     name: string;
     phone: string;
     message: string;
-    caseType: string;
+    subject: string;
+    preferredDate: string;
+    preferredTime: string;
   },
   paymentRef: string
 ) => {
@@ -20,12 +22,14 @@ export const resendEmail = async (
     const adminEmail = await resend.emails.send({
       from: "onboarding@resend.dev",
       to: "ashimiseide@gmail.com",
-      subject: `New Paid Consultation: ${formData.caseType} - Ref: ${paymentRef}`,
+      subject: `New Paid Consultation: ${formData.subject} - Ref: ${paymentRef}`,
       html: `<h1>New Consultation Request</h1>
         <p><strong>Payment Reference:</strong> ${paymentRef}</p>
         <p><strong>Client Name:</strong> ${formData.name}</p>
         <p><strong>Email:</strong> ${formData.email}</p>
         <p><strong>Phone:</strong> ${formData.phone}</p>
+        <p><strong>Preferred Date:</strong> ${formData.preferredDate}</p>
+        <p><strong>Preferred Time:</strong> ${formData.preferredTime}</p>
         <p><strong>Message:</strong></p>
         <p>${formData.message}</p>`,
     });
@@ -39,7 +43,7 @@ export const resendEmail = async (
           <p>Thank you for your payment. Your consultation request has been received.</p>
           <div style="background: #f4f4f4; padding: 20px; border-radius: 8px;">
             <p><strong>Payment Reference:</strong> ${paymentRef}</p>
-            <p><strong>Subject:</strong> ${formData.caseType}</p>
+            <p><strong>Subject:</strong> ${formData.subject}</p>
           </div>
           <p>Our team will contact you at <strong>${formData.phone}</strong> within 24 hours.</p>
           <hr />
@@ -48,6 +52,31 @@ export const resendEmail = async (
     });
 
     await Promise.all([adminEmail, clientEmail]);
+    return { success: true };
+  } catch (error) {
+    return { success: false };
+  }
+};
+
+export const contactEmail = async (formData: {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+}) => {
+  try {
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: `${formData.email}`,
+      subject: `You have a message from ${formData.name}: ${formData.subject}`,
+      html: `<h1>New Contact Message</h1>
+        <p><strong>Client Name:</strong> ${formData.name}</p>
+        <p><strong>Email:</strong> ${formData.email}</p>
+        <p><strong>Phone:</strong> ${formData.phone}</p>
+        <p><strong>Message:</strong></p>
+        <p>${formData.message}</p>`,
+    });
     return { success: true };
   } catch (error) {
     return { success: false };

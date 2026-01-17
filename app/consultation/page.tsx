@@ -1,5 +1,5 @@
 import { LuScale, LuCircleCheck } from "react-icons/lu";
-import Layout from "../components/layout/Layout";
+import Layout from "../../components/layout/Layout";
 import BookingForm from "./BookingForm";
 
 const ConsultationPage = () => {

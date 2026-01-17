@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Layout from "../components/layout/Layout";
+import Layout from "@/components/layout/Layout";
 import { values } from "./aboutData";
 
 const About = () => {

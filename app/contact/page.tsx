@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Layout from "../components/layout/Layout";
-import { LuMapPin, LuPhone, LuMail, LuClock, LuSend } from "react-icons/lu";
+import Layout from "../../components/layout/Layout";
+import { LuMapPin, LuPhone, LuMail, LuClock } from "react-icons/lu";
 import ContactForm from "./ContactForm";
 
 const Contact = () => {
@@ -115,14 +115,15 @@ const Contact = () => {
               {/* Map Placeholder */}
               <div className="h-64 rounded-xl overflow-hidden bg-secondary">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9476519598093!2d-73.98731568459473!3d40.74881797932882!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
+                  src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15853.754369821145!2d3.3418424176982535!3d6.592282410426766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sSuite%20207%2C%20Ikeja%20Plaza%2C%20Mobolaji%20Bank%20Anthony%20Way%2C%20Ikeja%2C%20Lagos!5e0!3m2!1sen!2sng!4v1768514109267!5m2!1sen!2sng"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
                   title="Office Location"
-                />
+                ></iframe>
               </div>
             </motion.div>
 

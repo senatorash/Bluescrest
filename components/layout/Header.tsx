@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { LuMenu, LuX, LuScale } from "react-icons/lu";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import DarkModeSwitch from "../ui/DarkModeSwitch";
+import DarkModeSwitch from "@/components/ui/DarkModeSwitch";
 
 const navLinks = [
   { name: "Home", path: "/" },

@@ -9,19 +9,25 @@ import {
   LuPhone,
 } from "react-icons/lu";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { verifyPayment } from "../actions/verify";
-import { resendEmail } from "../actions/resendEmail";
+import { useSearchParams, useRouter } from "next/navigation";
+import { verifyPayment } from "@/actions/verify";
+import { resendEmail } from "@/actions/resendEmail";
 
 const VerifyContent = () => {
   const [formData, setFormData] = useState<any>(null);
   const searchParams = useSearchParams();
+  const router = useRouter();
   const reference = searchParams.get("reference");
 
   useEffect(() => {
     const runVerification = async () => {
-      if (!reference) return;
-
+      if (
+        !reference ||
+        sessionStorage.getItem("consultationBooked") === reference
+      ) {
+        router.push("/consultation");
+        return;
+      }
       const verification = await verifyPayment(reference);
       setFormData(verification.data);
 
@@ -29,16 +35,19 @@ const VerifyContent = () => {
         name: verification?.data?.metadata?.name,
         email: verification?.data?.customer?.email,
         phone: verification?.data?.metadata?.phone,
-        caseType: verification?.data?.metadata?.caseType,
+        subject: verification?.data?.metadata?.subject,
         message: verification?.data?.metadata?.message,
+        preferredDate: verification?.data?.metadata?.preferredDate,
+        preferredTime: verification?.data?.metadata?.preferredTime,
       };
 
       if (verification?.data?.status === "success") {
         await resendEmail(formData, reference);
+        sessionStorage.setItem("consultationBooked", reference);
       }
     };
     runVerification();
-  }, [reference]);
+  }, [reference, router]);
   return (
     // <Layout>
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-16">
@@ -135,11 +144,11 @@ const VerifyContent = () => {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0">
+          <button className="p-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0">
             <Link href="/">Return Home</Link>
           </button>
-          <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground">
-            <Link href="/contact">Book Another Consultation</Link>
+          <button className="p-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground">
+            <Link href="/consultation">Book Another Consultation</Link>
           </button>
         </div>
       </div>
