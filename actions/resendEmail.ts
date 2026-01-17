@@ -1,8 +1,11 @@
 "use server";
 
 import { Resend } from "resend";
+import { ConsultationConfirmationEmail } from "@/components/templates/ConsultationConfirmationEmail";
+import { AdminConsultationAlertEmail } from "@/components/templates/AdminConsultationAlertEmail";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const base_url = process.env.BASE_URL_WEB;
 
 const resend = new Resend(RESEND_API_KEY);
 
@@ -15,40 +18,46 @@ export const resendEmail = async (
     subject: string;
     preferredDate: string;
     preferredTime: string;
+    paidAt: string;
+    paymentChannel: string;
+    amount: string;
   },
-  paymentRef: string
+  paymentRef: string,
 ) => {
   try {
     const adminEmail = await resend.emails.send({
       from: "onboarding@resend.dev",
       to: "ashimiseide@gmail.com",
       subject: `New Paid Consultation: ${formData.subject} - Ref: ${paymentRef}`,
-      html: `<h1>New Consultation Request</h1>
-        <p><strong>Payment Reference:</strong> ${paymentRef}</p>
-        <p><strong>Client Name:</strong> ${formData.name}</p>
-        <p><strong>Email:</strong> ${formData.email}</p>
-        <p><strong>Phone:</strong> ${formData.phone}</p>
-        <p><strong>Preferred Date:</strong> ${formData.preferredDate}</p>
-        <p><strong>Preferred Time:</strong> ${formData.preferredTime}</p>
-        <p><strong>Message:</strong></p>
-        <p>${formData.message}</p>`,
+      react: AdminConsultationAlertEmail({
+        logoDark: `${base_url}/bc11.png`,
+        logoLight: `${base_url}/ba12.png`,
+        companyName: "Bluecrest Attorneys",
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        consultationDate: formData.preferredDate,
+        consultationTime: formData.preferredTime,
+        reference: paymentRef,
+      }),
     });
 
     const clientEmail = await resend.emails.send({
       from: "Bluecrest Attorneys <onboarding@resend.dev>",
       to: formData.email,
       subject: `Consultation Confirmed - Ref: ${paymentRef}`,
-      html: `<div style="font-family: sans-serif; max-width: 600px;">
-          <h2>Hello ${formData.name},</h2>
-          <p>Thank you for your payment. Your consultation request has been received.</p>
-          <div style="background: #f4f4f4; padding: 20px; border-radius: 8px;">
-            <p><strong>Payment Reference:</strong> ${paymentRef}</p>
-            <p><strong>Subject:</strong> ${formData.subject}</p>
-          </div>
-          <p>Our team will contact you at <strong>${formData.phone}</strong> within 24 hours.</p>
-          <hr />
-          <p style="font-size: 12px; color: #666;">This is an automated receipt for your records.</p>
-        </div>`,
+      react: ConsultationConfirmationEmail({
+        logoLight: `${base_url}/ba12.png`,
+        logoDark: `${base_url}/bc11.png`,
+        companyName: "Bluecrest Attorneys",
+        name: formData.name,
+        phone: formData.phone,
+        amount: formData.amount,
+        reference: paymentRef,
+        paymentChannel: formData.paymentChannel,
+        paidAt: formData.paidAt,
+      }),
     });
 
     await Promise.all([adminEmail, clientEmail]);

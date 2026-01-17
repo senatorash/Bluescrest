@@ -30,6 +30,7 @@ const VerifyContent = () => {
       }
       const verification = await verifyPayment(reference);
       setFormData(verification.data);
+      console.log("Verification Data:", verification.data);
 
       const formData = {
         name: verification?.data?.metadata?.name,
@@ -39,6 +40,9 @@ const VerifyContent = () => {
         message: verification?.data?.metadata?.message,
         preferredDate: verification?.data?.metadata?.preferredDate,
         preferredTime: verification?.data?.metadata?.preferredTime,
+        paidAt: verification?.data?.paid_at,
+        paymentChannel: verification?.data?.channel,
+        amount: verification?.data?.amount,
       };
 
       if (verification?.data?.status === "success") {
