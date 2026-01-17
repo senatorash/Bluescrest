@@ -37,8 +37,8 @@ export const ConsultationConfirmationEmail = ({
 }: emailDataProps) => {
   return (
     <Html>
-      <Head />
       <Tailwind>
+        <Head />
         <Body className="bg-gray-100 dark:bg-black font-sans">
           <Container className="bg-white dark:bg-gray-900 rounded-xl p-6 max-w-150 mx-auto">
             {/* Logo */}
