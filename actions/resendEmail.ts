@@ -26,7 +26,7 @@ export const resendEmail = async (
 ) => {
   try {
     const adminEmail = await resend.emails.send({
-      from: "onboarding@resend.dev",
+      from: "Bluecrest Attorneys <noreply@mail.bluecrestattorneys.com>",
       to: "ashimiseide@gmail.com",
       subject: `New Paid Consultation: ${formData.subject} - Ref: ${paymentRef}`,
       react: AdminConsultationAlertEmail({
@@ -44,7 +44,7 @@ export const resendEmail = async (
     });
 
     const clientEmail = await resend.emails.send({
-      from: "Bluecrest Attorneys <onboarding@resend.dev>",
+      from: "Bluecrest Attorneys <noreply@mail.bluecrestattorneys.com>",
       to: formData.email,
       subject: `Consultation Confirmed - Ref: ${paymentRef}`,
       react: ConsultationConfirmationEmail({
@@ -76,7 +76,7 @@ export const contactEmail = async (formData: {
 }) => {
   try {
     await resend.emails.send({
-      from: "onboarding@resend.dev",
+      from: "noreply@bluecrestattorneys.com",
       to: `${formData.email}`,
       subject: `You have a message from ${formData.name}: ${formData.subject}`,
       html: `<h1>New Contact Message</h1>

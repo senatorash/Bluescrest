@@ -45,6 +45,13 @@ const VerifyContent = () => {
         amount: verification?.data?.amount,
       };
 
+      const amountInKobo = Number(formData.amount);
+      const amountInNaira = amountInKobo / 100;
+      formData.amount = amountInNaira.toLocaleString("en-NG", {
+        style: "currency",
+        currency: "NGN",
+      });
+
       if (verification?.data?.status === "success") {
         await resendEmail(formData, reference);
         sessionStorage.setItem("consultationBooked", reference);
