@@ -19,7 +19,7 @@ const CTASection = () => {
           <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary/10 rounded-full blur-3xl" />
 
-          <div className="relative z-10 p-8 md:p-12 lg:p-16">
+          <div className="relative z-10 p-2 md:p-12 lg:p-16">
             <div className="grid lg:grid-cols-2 gap-10 items-center">
               {/* Content */}
               <div className="space-y-6">

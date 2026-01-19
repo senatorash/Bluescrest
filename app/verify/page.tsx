@@ -150,7 +150,7 @@ const VerifyContent = () => {
         {/* Contact Info */}
         <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-6">
           <LuPhone className="w-4 h-4" />
-          <span>Questions? Call us at (234) 123-4567</span>
+          <span>Questions? Call us at (+234)-0-708-831-2857</span>
         </div>
 
         {/* Action Buttons */}
