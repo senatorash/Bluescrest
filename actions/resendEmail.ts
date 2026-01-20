@@ -3,9 +3,12 @@
 import { Resend } from "resend";
 import { ConsultationConfirmationEmail } from "@/components/templates/ConsultationConfirmationEmail";
 import { AdminConsultationAlertEmail } from "@/components/templates/AdminConsultationAlertEmail";
+import { ContactMessageNotificationEmail } from "@/components/templates/ContactMessageNotificationEmail";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const base_url = process.env.BASE_URL_WEB;
+const TO_EMAIL = process.env.TO_EMAIL;
+const FROM_EMAIL = process.env.FROM_EMAIL;
 
 const resend = new Resend(RESEND_API_KEY);
 
@@ -26,8 +29,8 @@ export const resendEmail = async (
 ) => {
   try {
     const adminEmail = await resend.emails.send({
-      from: "Bluecrest Attorneys <noreply@mail.bluecrestattorneys.com>",
-      to: "ashimiseide@gmail.com",
+      from: `Bluecrest Attorneys <${FROM_EMAIL}>`,
+      to: `${TO_EMAIL}`,
       subject: `New Paid Consultation: ${formData.subject} - Ref: ${paymentRef}`,
       react: AdminConsultationAlertEmail({
         logoDark: `${base_url}/bc11.png`,
@@ -44,7 +47,7 @@ export const resendEmail = async (
     });
 
     const clientEmail = await resend.emails.send({
-      from: "Bluecrest Attorneys <noreply@mail.bluecrestattorneys.com>",
+      from: `Bluecrest Attorneys <${FROM_EMAIL}>`,
       to: formData.email,
       subject: `Consultation Confirmed - Ref: ${paymentRef}`,
       react: ConsultationConfirmationEmail({
@@ -76,15 +79,17 @@ export const contactEmail = async (formData: {
 }) => {
   try {
     await resend.emails.send({
-      from: "noreply@bluecrestattorneys.com",
-      to: `${formData.email}`,
+      from: `Bluecrest Attorneys <${FROM_EMAIL}>`,
+      to: `${TO_EMAIL}`,
       subject: `You have a message from ${formData.name}: ${formData.subject}`,
-      html: `<h1>New Contact Message</h1>
-        <p><strong>Client Name:</strong> ${formData.name}</p>
-        <p><strong>Email:</strong> ${formData.email}</p>
-        <p><strong>Phone:</strong> ${formData.phone}</p>
-        <p><strong>Message:</strong></p>
-        <p>${formData.message}</p>`,
+      react: ContactMessageNotificationEmail({
+        logoLight: `${base_url}/ba12.png`,
+        logoDark: ` ${base_url}/bc11.png`,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+      }),
     });
     return { success: true };
   } catch (error) {

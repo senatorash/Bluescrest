@@ -4,12 +4,14 @@ import { LuCalendar, LuClock, LuCreditCard } from "react-icons/lu";
 import { initializePayment } from "@/actions/paystack";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import {
   consultationSchema,
   ConsultationFormData,
 } from "@/lib/schemas/consultation.schema";
 
 const BookingForm = () => {
+  const [loadTime, setLoadTime] = useState<number>(0);
   const {
     register,
     handleSubmit,
@@ -19,7 +21,16 @@ const BookingForm = () => {
     resolver: zodResolver(consultationSchema),
   });
 
+  useEffect(() => {
+    setLoadTime(Date.now());
+  }, []);
+
   const onSubmit = async (data: ConsultationFormData) => {
+    const timeTaken = (Date.now() - loadTime) / 1000;
+
+    if (data.organization || timeTaken < 3) {
+      return new Promise((resolve) => setTimeout(resolve, 1500));
+    }
     try {
       const sanitizedData = consultationSchema.parse(data);
 
@@ -27,7 +38,7 @@ const BookingForm = () => {
       const accessCode = await initializePayment(
         sanitizedData.email,
         50000,
-        sanitizedData
+        sanitizedData,
       );
 
       //    Load Paystack dynamically (Fixes SSR error)
@@ -68,7 +79,9 @@ const BookingForm = () => {
               placeholder="John Doe"
             />
             {errors.name && (
-              <p className="text-xs text-red-600 mt-1">{errors.name.message}</p>
+              <p className="text-xs pl-2 text-red-600 mt-1">
+                {errors.name.message}
+              </p>
             )}
           </div>
           <div className="space-y-2">
@@ -86,11 +99,25 @@ const BookingForm = () => {
               placeholder="john@example.com"
             />
             {errors.email && (
-              <p className="text-xs text-red-600 mt-1">
+              <p className="text-xs pl-2 text-red-600 mt-1">
                 {errors.email.message}
               </p>
             )}
           </div>
+        </div>
+
+        <div
+          className="absolute -left-2499.75 h-0 w-0 overflow-hidden"
+          aria-hidden="true"
+        >
+          <label htmlFor="organization">Organization Name</label>
+          <input
+            {...register("organization")}
+            id="organization"
+            placeholder="Personal or Company's Name"
+            tabIndex={-1}
+            autoComplete="off"
+          />
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
@@ -116,7 +143,7 @@ const BookingForm = () => {
               placeholder="23470895678901"
             />
             {errors.phone && (
-              <p className="text-xs text-red-600 mt-1">
+              <p className="text-xs pl-2 text-red-600 mt-1">
                 {errors.phone.message}
               </p>
             )}
@@ -143,7 +170,7 @@ const BookingForm = () => {
               <option value="other">Other</option>
             </select>
             {errors.caseType && (
-              <p className="text-xs text-red-600 mt-1">
+              <p className="text-xs pl-2 text-red-600 mt-1">
                 {errors.caseType.message}
               </p>
             )}
@@ -167,7 +194,7 @@ const BookingForm = () => {
               min={new Date().toISOString().split("T")[0]}
             />
             {errors.preferredDate && (
-              <p className="text-xs text-red-600 mt-1">
+              <p className="text-xs pl-2 text-red-600 mt-1">
                 {errors.preferredDate.message}
               </p>
             )}
@@ -195,7 +222,7 @@ const BookingForm = () => {
               <option value="16:00">4:00 PM</option>
             </select>
             {errors.preferredTime && (
-              <p className="text-xs text-red-600 mt-1">
+              <p className="text-xs pl-2 text-red-600 mt-1">
                 {errors.preferredTime.message}
               </p>
             )}
@@ -219,7 +246,7 @@ const BookingForm = () => {
             rows={4}
           />
           {errors.message && (
-            <p className="text-xs text-red-600 mt-1">
+            <p className="text-xs pl-2 text-red-600 mt-1">
               {errors.message.message}
             </p>
           )}

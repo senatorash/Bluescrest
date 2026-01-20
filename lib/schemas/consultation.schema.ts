@@ -12,7 +12,7 @@ export const consultationSchema = z.object({
     .max(100, "Name must be less than 100 characters")
     .regex(
       /^[a-zA-Z\s'-]+$/,
-      "Name can only contain letters, spaces, apostrophes, and hyphens"
+      "Name can only contain letters, spaces, apostrophes, and hyphens",
     )
     .transform(sanitizeInput),
   email: z
@@ -25,7 +25,7 @@ export const consultationSchema = z.object({
     })
     .refine(
       (val) => !val.includes("<") && !val.includes(">"),
-      "Invalid email format"
+      "Invalid email format",
     )
     .transform(sanitizeInput),
   phone: z
@@ -40,7 +40,7 @@ export const consultationSchema = z.object({
       },
       {
         message: "Invalid phone number format",
-      }
+      },
     )
     .transform(sanitizeInput),
   preferredDate: z
@@ -62,7 +62,7 @@ export const consultationSchema = z.object({
     .max(2000, "Message must be less than 2000 characters")
     .transform(sanitizeInput),
 
-  [HONEYPOT_FIELD]: z.string().max(0, "Bot submission detected").optional(),
+  organization: z.string().max(0).optional(),
 });
 
 export type ConsultationFormData = z.infer<typeof consultationSchema>;

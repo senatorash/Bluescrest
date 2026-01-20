@@ -43,7 +43,10 @@ export const AdminConsultationAlertEmail = ({
       <Body className="bg-gray-100 dark:bg-black font-sans">
         <Container className="bg-white dark:bg-gray-900 p-6 rounded-xl max-w-150 mx-auto">
           <Section className="text-center mb-4">
-            <Img src={logoLight} className="mx-auto block dark:hidden w-22.5" />
+            <Img
+              src={logoLight}
+              className="bg-[#0a1f44] p-3 rounded-xl mx-auto block dark:hidden w-22.5"
+            />
             <Img src={logoDark} className="mx-auto hidden dark:block w-22.5" />
           </Section>
 

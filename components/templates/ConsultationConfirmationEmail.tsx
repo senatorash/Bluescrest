@@ -47,7 +47,7 @@ export const ConsultationConfirmationEmail = ({
                 src={logoLight}
                 alt="bluecrest attorneys"
                 width="90"
-                className="mx-auto block dark:hidden"
+                className="bg-[#0a1f44] p-3 rounded-xl mx-auto block dark:hidden"
               />
               <Img
                 src={logoDark}
@@ -58,7 +58,7 @@ export const ConsultationConfirmationEmail = ({
             </Section>
 
             <Heading className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 text-center">
-              Consultation Confirmed ✅
+              Consultation Confirmed
             </Heading>
 
             <Text className="text-gray-700 dark:text-gray-300 text-sm">

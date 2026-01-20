@@ -9,7 +9,7 @@ export const contactSchema = z.object({
     .max(100, "Name must be less than 100 characters")
     .regex(
       /^[a-zA-Z\s'-]+$/,
-      "Name can only contain letters, spaces, apostrophes, and hyphens"
+      "Name can only contain letters, spaces, apostrophes, and hyphens",
     )
     .transform(sanitizeInput),
   email: z
@@ -22,7 +22,7 @@ export const contactSchema = z.object({
     })
     .refine(
       (val) => !val.includes("<") && !val.includes(">"),
-      "Invalid email format"
+      "Invalid email format",
     )
     .transform(sanitizeInput),
   phone: z
@@ -35,7 +35,7 @@ export const contactSchema = z.object({
       },
       {
         message: "Invalid phone number format",
-      }
+      },
     )
     .transform(sanitizeInput),
   subject: z
@@ -50,6 +50,7 @@ export const contactSchema = z.object({
     .min(10, "Message must be at least 10 characters")
     .max(2000, "Message must be less than 2000 characters")
     .transform(sanitizeInput),
+  organization: z.string().max(0).optional(),
 });
 
 export type ContactFormData = z.infer<typeof contactSchema>;

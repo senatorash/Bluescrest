@@ -7,9 +7,10 @@ import { ContactFormData, contactSchema } from "@/lib/schemas/contact.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { contactEmail } from "@/actions/resendEmail";
+import { toast } from "sonner";
 
 const ContactForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadTime, setLoadTime] = useState<number>(0);
   const {
     register,
     handleSubmit,
@@ -17,11 +18,24 @@ const ContactForm = () => {
     reset,
   } = useForm<ContactFormData>({ resolver: zodResolver(contactSchema) });
 
+  useEffect(() => {
+    setLoadTime(Date.now());
+  }, []);
+
   const onSubmit = async (data: ContactFormData) => {
+    const timeTaken = (Date.now() - loadTime) / 1000;
+
+    if (data.organization || timeTaken < 3) {
+      return new Promise((resolve) => setTimeout(resolve, 1500));
+    }
+
     try {
       await contactEmail(data);
+      toast.success("Message sent successfully!");
       reset();
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Failed to send message. Please try again later.");
+    }
   };
 
   return (
@@ -40,7 +54,7 @@ const ContactForm = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="grid sm:grid-cols-2 gap-4">
-            <div>
+            <div className="space-y-2">
               <label className="text-sm font-medium text-foreground block mb-2">
                 Full Name *
               </label>
@@ -57,7 +71,7 @@ const ContactForm = () => {
                 </p>
               )}
             </div>
-            <div>
+            <div className="space-y-2">
               <label className="text-sm font-medium text-foreground block mb-2">
                 Email *
               </label>
@@ -76,8 +90,21 @@ const ContactForm = () => {
             </div>
           </div>
 
+          <div
+            className="absolute -left-2499.75 h-0 w-0 overflow-hidden"
+            aria-hidden="true"
+          >
+            <label htmlFor="organization">Organization Name</label>
+            <input
+              {...register("organization")}
+              id="organization"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
+
           <div className="grid sm:grid-cols-2 gap-4">
-            <div>
+            <div className="space-y-2">
               <label className="text-sm font-medium text-foreground block mb-2">
                 Phone
               </label>
@@ -100,7 +127,7 @@ const ContactForm = () => {
                 </p>
               )}
             </div>
-            <div>
+            <div className="space-y-2">
               <label className="text-sm font-medium text-foreground block mb-2">
                 Subject *
               </label>
@@ -119,7 +146,7 @@ const ContactForm = () => {
             </div>
           </div>
 
-          <div>
+          <div className="space-y-2">
             <label className="text-sm font-medium text-foreground block mb-2">
               Message *
             </label>

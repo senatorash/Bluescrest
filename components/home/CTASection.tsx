@@ -6,7 +6,7 @@ import { LuArrowRight, LuPhone, LuMail } from "react-icons/lu";
 
 const CTASection = () => {
   return (
-    <section className="section-padding bg-background">
+    <section className="px-0 py-20 md:px-12 lg:px-24 lg:py-28 bg-background">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -19,7 +19,7 @@ const CTASection = () => {
           <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary/10 rounded-full blur-3xl" />
 
-          <div className="relative z-10 p-2 md:p-12 lg:p-16">
+          <div className="relative z-10 p-5 md:p-12 lg:p-16">
             <div className="grid lg:grid-cols-2 gap-10 items-center">
               {/* Content */}
               <div className="space-y-6">

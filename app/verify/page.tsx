@@ -30,7 +30,6 @@ const VerifyContent = () => {
       }
       const verification = await verifyPayment(reference);
       setFormData(verification.data);
-      console.log("Verification Data:", verification.data);
 
       const formData = {
         name: verification?.data?.metadata?.name,
@@ -50,6 +49,13 @@ const VerifyContent = () => {
       formData.amount = amountInNaira.toLocaleString("en-NG", {
         style: "currency",
         currency: "NGN",
+      });
+
+      const date = new Date(formData.paidAt);
+      formData.paidAt = date.toLocaleString("en-NG", {
+        dateStyle: "long",
+        timeStyle: "short",
+        timeZone: "Africa/Lagos",
       });
 
       if (verification?.data?.status === "success") {

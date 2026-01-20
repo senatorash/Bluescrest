@@ -19,6 +19,8 @@ export const areas = [
       "Securities Regulation",
       "Joint Ventures",
       "Contract Negotiation",
+      "Registration of Business names",
+      "Incorporation of Companies, NGOs, Associations, Clubs, etc",
     ],
   },
   {
