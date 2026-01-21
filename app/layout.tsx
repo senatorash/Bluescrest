@@ -12,19 +12,19 @@ export const metadata: Metadata = {
   //   "Bluecrest Attorneys provides expert legal counsel in corporate, commercial, and dispute resolution matters. Trusted by SMEs and enterprises across Nigeria for strategic, results‑driven representation",
   icons: {
     icon: [
-      {
-        media: "(prefers-color-scheme:light)",
-        url: "/favicon.ico",
-      },
-      {
-        media: "(prefers-color-scheme:dark)",
-        url: "/images/favicon-white.png",
-      },
+      "/favicon.ico",
+      // {
+      //   media: "(prefers-color-scheme:light)",
+      //   url: "/favicon.ico",
+      // },
+      // {
+      //   media: "(prefers-color-scheme:dark)",
+      //   url: "/images/favicon-white.png",
+      // },
     ],
     shortcut: "/favicon-32x32.png",
     apple: "/apple-touch-icon.png",
   },
-  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({

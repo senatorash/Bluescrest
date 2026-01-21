@@ -53,7 +53,7 @@ const AboutSection = () => {
               transition={{ delay: 0.4 }}
               className="absolute -bottom-4 -left-4 bg-primary text-primary-foreground p-6 rounded-xl shadow-lg"
             >
-              <span className="font-serif text-4xl font-bold block">25+</span>
+              <span className="font-serif text-4xl font-bold block">15+</span>
               <span className="text-sm opacity-90">Years of Excellence</span>
             </motion.div>
           </motion.div>
@@ -73,15 +73,15 @@ const AboutSection = () => {
               A Legacy of Legal Excellence
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed">
-              Founded in 1998, Sterling & Associates has grown from a boutique
-              practice to one of the region's most respected law firms. We
-              combine the personalized attention of a smaller firm with the
-              resources and expertise of a larger one.
+              Bluecrest Attorneys is a Nigerian law firm providing strategic
+              legal services across corporate and commercial law, litigation and
+              dispute resolution, property and real estate, tax advisory, and
+              fintech and financial services regulation.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Our team of accomplished attorneys brings diverse backgrounds and
-              specialized knowledge to every case, ensuring comprehensive legal
-              solutions tailored to your unique needs.
+              The firm is committed to delivering clear, practical, and
+              commercially sound legal solutions that align with Nigerian law
+              and regulatory requirements.
             </p>
 
             {/* Values List */}

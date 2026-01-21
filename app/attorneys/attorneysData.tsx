@@ -1,26 +1,27 @@
 export const attorneys = [
   {
-    name: "James Sterling",
+    name: "Selome Ashimi",
+    specialty: "LL.B, B.L, LL.M, PhD(in view) ACTI",
     title: "Founding Partner",
-    specialty: "Corporate Law, M&A",
-    image:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80",
-    bio: "With over 30 years of experience, James leads the firm's corporate practice and strategic vision.",
+    image: "/attorney1.jpeg",
+    linkedIn:
+      "https://www.linkedin.com/in/selome-ashimi-76a04b14b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+    mail: "selomeashimi96@gmail.com",
+    bio: "",
   },
   {
-    name: "Sarah Mitchell",
+    name: "Rasaq Oseni",
+    specialty: "LL.B, B.L, LL.M",
     title: "Senior Partner",
-    specialty: "Litigation",
-    image:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
-    bio: "A formidable litigator known for her strategic approach and courtroom excellence.",
+    image: "/bluecrest-white.png",
+    bio: "",
   },
   {
-    name: "David Chen",
+    name: "Mujidat Subair",
     title: "Partner",
-    specialty: "Real Estate",
-    image:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
-    bio: "David brings extensive experience in commercial real estate transactions and development.",
+    specialty: "LL.B, B.L, LL.M, PhD(in view) ACTI",
+    image: "/bluecrest-white.png",
+    mail: "Mujeedahsubair@gmail.com",
+    bio: "",
   },
 ];

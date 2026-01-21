@@ -51,13 +51,13 @@ const Attorneys = () => {
                   <div className="absolute inset-0 bg-linear-to-t from-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute bottom-4 left-4 right-4 flex gap-2">
                       <a
-                        href="#"
+                        href={attorney.linkedIn}
                         className="p-2 bg-primary-foreground/20 backdrop-blur-sm rounded-full hover:bg-accent transition-colors"
                       >
                         <LuLinkedin className="h-4 w-4 text-primary-foreground" />
                       </a>
                       <a
-                        href="#"
+                        href={`mailto:${attorney.mail}`}
                         className="p-2 bg-primary-foreground/20 backdrop-blur-sm rounded-full hover:bg-accent transition-colors"
                       >
                         <LuMail className="h-4 w-4 text-primary-foreground" />
@@ -69,11 +69,11 @@ const Attorneys = () => {
                   <h3 className="font-serif text-xl font-semibold text-foreground">
                     {attorney.name}
                   </h3>
-                  <p className="text-accent font-medium text-sm">
-                    {attorney.title}
-                  </p>
                   <p className="text-muted-foreground text-sm">
                     {attorney.specialty}
+                  </p>
+                  <p className="text-accent font-medium text-sm">
+                    {attorney.title}
                   </p>
                   <p className="text-muted-foreground text-sm pt-2">
                     {attorney.bio}

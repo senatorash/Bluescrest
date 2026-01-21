@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Layout from "@/components/layout/Layout";
 import { values } from "./aboutData";
+import Image from "next/image";
 
 const About = () => {
   return (
@@ -18,12 +19,15 @@ const About = () => {
               About Us
             </span>
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground mb-6">
-              A Legacy Built on Trust
+              Bluecrest Attorneys
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              For over 15 years, Bluecrest Attorneys has been a pillar of legal
-              excellence, representing clients across a broad spectrum of legal
-              matters with unwavering dedication and expertise.
+              A Nigerian law firm providing strategic legal services across
+              corporate and commercial law, litigation and dispute resolution,
+              property and real estate, tax advisory, and fintech and financial
+              services regulation. We are committed to delivering clear,
+              practical, and commercially sound legal solutions that align with
+              Nigerian law and regulatory requirements.
             </p>
           </motion.div>
         </div>
@@ -32,14 +36,17 @@ const About = () => {
       {/* Story */}
       <section className="section-padding">
         <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <img
-                src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?auto=format&fit=crop&w=800&q=80"
+              {/* https://images.unsplash.com/photo-1568992687947-868a62a9f521?auto=format&fit=crop&w=800&q=80 */}
+              <Image
+                width={600}
+                height={400}
+                src="/about1.jpg"
                 alt="Law office"
                 className="rounded-2xl shadow-xl"
               />
@@ -51,26 +58,76 @@ const About = () => {
               className="space-y-6"
             >
               <h2 className="font-serif text-3xl md:text-4xl font-semibold text-foreground">
-                Our Story
+                Our Commitment
               </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Bluecrest Attorneys was founded in 2010 by a group of
-                outstanding esquires with a clear vision: to create a law firm
-                that combines exceptional legal talent with genuine care for
-                clients. What began as a small practice has grown into one of
-                the region's most respected firms.
+              <p className="flex flex-col text-muted-foreground leading-relaxed">
+                <span className="text-accent underline text-sm font-bold font-serif">
+                  Corporate and Commercial Law
+                </span>
+                In our corporate and commercial practice, we advise companies on
+                incorporation, corporate governance, restructuring, mergers and
+                acquisitions, and regulatory compliance, with particular focus
+                on engagements with the Corporate Affairs Commission (CAC) and
+                sector-specific regulators. We support both local and
+                foreign-owned businesses in navigating Nigeria’s evolving
+                corporate landscape.
               </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Today, our team of over 30 attorneys continues to uphold the
-                founding principles of integrity, excellence, and client-focused
-                service. We've successfully handled thousands of cases across
-                corporate law, litigation, real estate, family law, and estate
-                planning.
+              <p className="flex flex-col text-muted-foreground leading-relaxed">
+                <span className="text-accent underline text-sm font-bold font-serif">
+                  Litigation and Dispute Resolution
+                </span>
+                Our litigation and dispute resolution practice offers robust
+                representation before courts and tribunals across Nigeria, as
+                well as strategic support in arbitration and other alternative
+                dispute resolution mechanisms. We act for individuals,
+                companies, and institutions in commercial, regulatory, and
+                tax-related disputes, always with a focus on efficiency and
+                results.
               </p>
+              <p className="flex flex-col text-muted-foreground leading-relaxed">
+                <span className="text-accent underline text-sm font-bold font-serif">
+                  Real Estate
+                </span>
+                Through our property and real estate practice, we provide
+                comprehensive legal support on land acquisition, title
+                verification, perfection of interests, leases, and property
+                development transactions. We guide clients through regulatory
+                processes involving land registries and relevant state
+                authorities, ensuring compliance and protection of property
+                rights.
+              </p>
+              <p className="flex flex-col text-muted-foreground leading-relaxed">
+                <span className="text-accent underline text-sm font-bold font-serif">
+                  Tax Law
+                </span>
+                In the area of tax law, BlueCrest Attorneys advises on tax
+                planning, compliance, and dispute resolution involving the
+                Nigerian Revenue Service (NRS) and relevant State Internal
+                Revenue Services. Our approach helps clients manage tax
+                exposure, meet statutory obligations, and effectively respond to
+                audits and assessments.
+              </p>
+              <p className="flex flex-col text-muted-foreground leading-relaxed">
+                <span className="text-accent underline text-sm font-bold font-serif">
+                  Fintech and Financial Services
+                </span>
+                Our fintech and financial services practice supports banks,
+                fintech companies, payment service providers, and other
+                financial institutions on licensing, regulatory compliance, and
+                operational structuring under the oversight of the Central Bank
+                of Nigeria (CBN), Securities and Exchange Commission (SEC), and
+                the Federal Competition and Consumer Protection Commission
+                (FCCPC). We also advise on data protection, consumer protection,
+                and emerging regulatory frameworks affecting digital finance in
+                Nigeria.
+              </p>
+
               <p className="text-muted-foreground leading-relaxed">
-                Our commitment to the community extends beyond the courtroom. We
-                actively participate in pro bono work and support various
-                charitable initiatives that make a difference in people's lives.
+                At BlueCrest Attorneys, we combine strong legal expertise with
+                deep understanding of Nigeria’s regulatory environment. Our
+                clients rely on us for responsive service, sound judgment, and
+                legal strategies that protect value and support long-term
+                success.
               </p>
             </motion.div>
           </div>

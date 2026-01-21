@@ -16,6 +16,7 @@ const LegalSchema = () => {
     },
     telephone: "+2347088312857",
     email: "info@bluecrestattorneys.com",
+    sameAs: [],
   };
 
   return (
