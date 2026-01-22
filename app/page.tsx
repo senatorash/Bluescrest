@@ -3,7 +3,7 @@ import CTASection from "../components/home/CTASection";
 import Layout from "../components/layout/Layout";
 import HeroSection from "../components/home/HeroSection";
 import PracticeAreasSection from "../components/home/PracticeAreasSection";
-import TestimonialSection from "../components/home/TestimonialSection";
+// import TestimonialSection from "../components/home/TestimonialSection";
 
 const Home = () => {
   return (
@@ -11,7 +11,7 @@ const Home = () => {
       <HeroSection />
       <PracticeAreasSection />
       <AboutSection />
-      <TestimonialSection />
+      {/* <TestimonialSection /> */}
       <CTASection />
     </Layout>
   );
