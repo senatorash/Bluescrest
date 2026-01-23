@@ -37,7 +37,7 @@ const CTASection = () => {
 
                 <div className="flex flex-wrap gap-4 pt-2">
                   <button className="dark:hover:bg-accent/80 inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-navy-light shadow-lg hover:shadow-xl hover:-translate-y-0.5 font-semibold h-14 rounded-md px-10 text-base">
-                    <Link className="flex items-center" href="/contact">
+                    <Link className="flex items-center" href="/consultation">
                       Book Consultation
                       <LuArrowRight className="ml-2 h-5 w-5" />
                     </Link>
