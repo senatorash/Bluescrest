@@ -65,7 +65,7 @@ const HeroSection = () => {
                 <div className="flex items-center gap-2 text-accent">
                   <LuAward className="h-5 w-5" />
                   <span className="font-serif text-2xl font-semibold text-foreground">
-                    25+
+                    15+
                   </span>
                 </div>
                 <p className="text-sm text-muted-foreground">
